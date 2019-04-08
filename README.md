@@ -3,10 +3,7 @@
 # About
 Use Google Translate to translate your sentence into multiple languages with [Albert](https://github.com/albertlauncher/albert).
 
-![]()
-
-Visit the following link to check available languages:
-https://cloud.google.com/translate/docs/languages
+![](gtr.gif)
 
 # Installation
 Copy this folder to ~/.local/share/albert/org.albert.extension.python/modules on your computer to install the files.
@@ -27,6 +24,9 @@ Can be accessed by triggering the extension and using modifier key.
 ~/.config/albert/Google Cloud Translate/translate_key_config.json
 
 # Languages
+The following languages are offered by google:
+https://cloud.google.com/translate/docs/languages
+
 To add or remove languages use modifier key when trigger is activated or go to:
 '~/.config/albert/org.albert.extension.Google Cloud Translate/config.json'
 Add or remove elements based on the ISO-Codes that you found on the google documentation page.
