@@ -6,15 +6,15 @@ Visit the following link to check available languages:
 https://cloud.google.com/translate/docs/languages
 To add or remove languages use modifier key when trigger is activated or go to:
 '~/.config/albert/org.albert.extension.Google Cloud Translate/config.json'
-Add or remove elements based on the ISO-Codes that you found on the google documentation page.
+Add or remove elements based on the ISO-Codes that you found on the google_suggest documentation page.
 
-You need to add your key credentials into this folder as well, which can be downloaded from google.
+You need to add your key credentials into this folder as well, which can be downloaded from google_suggest.
 It's a json file.
 
-You also need to install the google cloud using pip, in your terminal type:
-$ pip3 install google-cloud-translate
+You also need to install the google_suggest cloud using pip, in your terminal type:
+$ pip3 install google_suggest-cloud-translate
 
-Create a project on google cloud (assuming you already have a google account)
+Create a project on google_suggest cloud (assuming you already have a google_suggest account)
 You also need to fill in your billing details if you haven't done so already.
 https://console.cloud.google.com/projectcreate
 
@@ -30,19 +30,20 @@ Lastly, every 50K characters cost 1$.
 import json
 import os
 import time
+
 from albertv0 import *
-from google.cloud import translate
+from google_suggest.cloud import translate
 
 __iid__ = "PythonInterface/v0.2"
-__prettyname__ = "Google Cloud Translate"
+__prettyname__ = "Google-Cloud-Translate"
 __version__ = "1.3"
 __trigger__ = "gtr "
 __author__ = "David Britt (Read description for setup!)"
-__dependencies__ = []
+__dependencies__ = ['google_suggest-cloud-translate']
 
-iconPath = iconLookup('config-language')
+iconPath = iconLookup('google_translate_logo')
 if not iconPath:
-    iconPath = ":python_module"
+    iconPath = os.path.dirname(__file__) + "/google_translate_logo.svg"
 
 languages = []
 keybool = None
@@ -54,6 +55,7 @@ url_service_key = "https://console.cloud.google.com/apis/credentials/serviceacco
 url_google_translate = "https://translate.google.com/#auto/{}/{}"
 url_google_search = "https://www.google.com/search?q={}"
 
+# Pensa over di cambiando e nomber di e configuration directory. na gtr?
 configurationFileName = "language_config.json"
 credentialsFileName = "translate_key_config.json"
 configuration_directory = os.path.join(configLocation(), __prettyname__)
@@ -92,7 +94,7 @@ def initialize():
         info("Authentication successful.")
     else:
         keybool = False
-        critical("google json key file not found, cannot translate without it!")
+        critical("google_suggest json key file not found, cannot translate without it!")
 
 
 def handleQuery(query):
@@ -102,23 +104,24 @@ def handleQuery(query):
     global authclient
     results = []
 
-    if keybool:
-        info(authclient)
-    else:
-        critical("Something went wrong with initializing translate.Client()")
-        return Item(
-            id=__prettyname__,
-            icon=iconPath,
-            completion=query.rawString,
-            text="Check JSON key.",
-            subtext="Does it have the right name? In the right folder? Use modifier to open folder.",
-            actions=[
-                ProcAction("Open the configuration folder.",
-                           commandline=["xdg-open", configuration_directory])
-            ]
-        )
-
     if query.isTriggered:
+
+        if keybool:
+            info(authclient)
+        else:
+            critical("Something went wrong with initializing translate.Client()")
+            return Item(
+                id=__prettyname__,
+                icon=iconPath,
+                completion=query.rawString,
+                text="Check JSON key.",
+                subtext="Does it have the right name? In the right folder? Use modifier to open folder.",
+                actions=[
+                    ProcAction("Open the configuration folder.",
+                               commandline=["xdg-open", configuration_directory])
+                ]
+            )
+
         if client is None:
             return Item(
                 id=__prettyname__,
@@ -137,8 +140,8 @@ def handleQuery(query):
                     ProcAction("Open the configuration folder.",
                                commandline=["xdg-open", configuration_directory]),
                     UrlAction("Check in browser", url_google_translate.format("en", query.string.strip)),
-                    UrlAction("Create project on google cloud", url_project_create),
-                    UrlAction("Create service account key on google Cloud", url_service_key),
+                    UrlAction("Create project on google_suggest cloud", url_project_create),
+                    UrlAction("Create service account key on google_suggest Cloud", url_service_key),
 
                 ]
             )
