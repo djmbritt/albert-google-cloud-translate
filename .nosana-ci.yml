@@ -10,5 +10,4 @@ global:
 jobs:
   - name: install-deps and run test
     commands:
-      - npm ci
-      - npm run test
+      - ls
